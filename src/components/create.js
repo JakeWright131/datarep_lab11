@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 export class Create extends React.Component {
     //renders the components onto the webpage
@@ -42,9 +43,26 @@ export class Create extends React.Component {
     }
 
     //On submit the values of title,year and poster are output to the screen by an alert
+    //submits post request to localhost 4000/api/movies
     onSubmit(e) {
         e.preventDefault();
         alert("Movie: " + this.state.Title + " Was Added Successfully"+ this.state.Year + "" +this.state.Poster)
+
+        const newMovie = {
+            title: this.state.Title,
+            year: this.state.Year,
+            poster: this.state.Poster
+        }
+        //sends new objects to the webpage
+        //outputs data to the console
+        //throws error if there is a problem
+        axios.post('http://localhost:4000/api/movies', newMovie)
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((err)=>{
+            console.log(err);
+        }); 
     }
 
     //form field is displayed onto webpage with text areas
