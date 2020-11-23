@@ -12,6 +12,7 @@ import { Navbar, Nav } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Create } from './components/create';
 import { Read } from './components/read';
+import { Edit } from './components/edit';
 
 //Creates the single page application
 //application displays text and the time
@@ -21,6 +22,7 @@ import { Read } from './components/read';
 //navbar is displayed on the web application for navigation
 //added routing to the web application
 
+//added edit component
 
 class App extends Component {
   render() {
@@ -37,11 +39,13 @@ class App extends Component {
             </Nav>
           </Navbar>
 
+
           <br />
           <Switch>
             <Route path='/' component={Content} exact />
             <Route path='/create' component={Create} exact />
             <Route path='/read' component={Read} exact />
+            <Route path='/edit/:id' component={Edit} exact />
           </Switch>
         </div>
       </Router>

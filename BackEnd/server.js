@@ -23,16 +23,16 @@ app.use(bodyParser.json())
 
 //connection string for mongoose
 const myConnectionString = 'mongodb+srv://admin:admin@cluster0.gqlmm.mongodb.net/movies?retryWrites=true&w=majority';
-mongoose.connect(myConnectionString, {useNewUrlParser: true});
+mongoose.connect(myConnectionString, { useNewUrlParser: true });
 
 const Schema = mongoose.Schema;
 
 //defining schema
 
 var movieSchema = new Schema({
-    title:String,
-    year:String,
-    poster:String
+    title: String,
+    year: String,
+    poster: String
 });
 
 var MovieModel = mongoose.model("movie", movieSchema);
@@ -63,25 +63,41 @@ app.get('/api/movies', (req, res) => {
     //     }
 
     // ];
-MovieModel.find((err, data)=>{
-    res.json(data);
-})
+    MovieModel.find((err, data) => {
+        res.json(data);
+    })
+
+
 
     //sending json information
     // res.status(200).json({
     //     message: "Everything is okay",
     //     movies: mymovies});
-    
+
 })
 
 //getting api information and displaying to the screen
-app.get('/api/movies/:id', (req,res)=>{
+app.get('/api/movies/:id', (req, res) => {
     console.log(req.params.id);
 
-    MovieModel.findById(req.params.id, (err, data) =>{
+    MovieModel.findById(req.params.id, (err, data) => {
         res.json(data);
     })
 })
+
+//created put request
+//updates movie with a particular id
+//finds record id and overrites the movie info
+app.put('/api/movies/:id', (req, res) => {
+    console.log("Update move: " + req.params.id);
+    console.log(req.body);
+
+    MovieModel.findByIdAndUpdate(req.params.id, req.body, { new: true },
+        (err, data) => {
+            res.send(data);
+        })
+})
+
 
 app.post('/api/movies', (req, res) => {
     console.log('Movie Recieved!');
@@ -90,9 +106,9 @@ app.post('/api/movies', (req, res) => {
     console.log(req.body.poster);
 
     MovieModel.create({
-        title:req.body.title,
-        year:req.body.year,
-        poster:req.body.poster
+        title: req.body.title,
+        year: req.body.year,
+        poster: req.body.poster
     })
 
     res.send('item Added');
