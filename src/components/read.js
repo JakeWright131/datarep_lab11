@@ -8,6 +8,11 @@ export class Read extends React.Component {
     //imbedding movies component in read component
     //passing data from read component using state object
 
+    constructor(){
+        super();
+
+        this.ReloadData = this.ReloadData.bind(this);
+    }
     state = {
         movies: [
 
@@ -27,13 +32,31 @@ export class Read extends React.Component {
                 (error) => { console.log(error) });
     }
 
+
+//reloads data on webpage
+ReloadData(){
+    axios.get('http://localhost:4000/api/movies')
+    .then((response) => {
+            this.setState({ movies: response.data })
+        })
+
+    .catch((error) => { 
+        console.log(error) 
+    });
+}
+
+    
+
+
+
     render() {
         return (
             <div>
                 <h1>This is the read component.</h1>
-                <Movies movies={this.state.movies}></Movies>
+        <Movies movies={this.state.movies}> ReloadData={this.state.movies}</Movies>
             </div>
         );
     }
 
 }
+
