@@ -4,6 +4,7 @@ const port = 4000
 const cors = require('cors');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
+const path = require('path');
 
 app.use(cors());
 app.use(function (req, res, next) {
@@ -13,7 +14,10 @@ app.use(function (req, res, next) {
         "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-
+// sets a path to find important files from the build folder
+// sets a path to find important files from the static folder
+app.use(express.static(path.join(__dirname, '../build')));
+app.use('/static',express.static(path.join(__dirname, 'build//static')));
 
 // create application/x-www-form-urlencoded parser
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -122,6 +126,12 @@ app.post('/api/movies', (req, res) => {
     })
 
     res.send('item Added');
+})
+
+//sends files to index.html
+//sets one root for the webpage
+app.get('*', (req,res)=>{
+    res.sendFile(path.join(__dirname+'/../build/index.html'))
 })
 
 app.listen(port, () => {
